@@ -209,71 +209,15 @@
             <span class="shimmer h-6 w-20 rounded" role="presentation"></span>
         </div>
 
-        <div class="flex items-center" v-else>
-            <!-- Primeras 4 categorías -->
-            <template v-for="(category, index) in categories">
-                <div
-                    v-if="index < 4"
-                    class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-navyBlue"
-                >
-                    <span>
-                        <a :href="category.url" class="inline-block px-5 uppercase">
-                            @{{ category.name }}
-                        </a>
-                    </span>
-
+            <div class="flex items-center" v-else>
+                <!-- Primeras 4 categorías -->
+                <template v-for="(category, index) in categories">
                     <div
-                        class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto border border-t border-[#F3F3F3] bg-white p-1 opacity-0 shadow transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
-                        v-if="category.children.length"
-                    >
-                        <div class="flex justify-between gap-x-[70px]">
-                            <div
-                                class="grid w-full max-w-[150px] flex-auto grid-cols-1 content-start gap-5"
-                                v-for="pairCategoryChildren in pairCategoryChildren(category)"
-                            >
-                                <template v-for="secondLevelCategory in pairCategoryChildren">
-                                    <p class="font-medium text-navyBlue">
-                                        <a :href="secondLevelCategory.url">
-                                            @{{ secondLevelCategory.name }}
-                                        </a>
-                                    </p>
-
-                                    <ul class="grid grid-cols-1 gap-3" v-if="secondLevelCategory.children.length">
-                                        <li class="text-sm font-medium text-zinc-500" v-for="thirdLevelCategory in secondLevelCategory.children">
-                                            <a :href="thirdLevelCategory.url">
-                                                @{{ thirdLevelCategory.name }}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-
-            <!-- Botón "Más" -->
-            <div
-                v-if="categories.length > 4"
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-navyBlue"
-            >
-            <a
-            href="/categories"
-            class="inline-block px-5 uppercase text-current hover:text-navyBlue"
-            style="cursor: pointer;"
-        >
-            Más ▾
-        </a>
-
-                <div
-                    class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto border border-t border-[#F3F3F3] bg-white py-1 px-5 opacity-0 shadow transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
-                >
-                    <div
-                        class="group relative flex h-[60px] items-center border-b-4 border-transparent hover:border-navyBlue"
-                        v-for="category in categories.slice(4)"
+                        v-if="index < 4"
+                        class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-navyBlue"
                     >
                         <span>
-                            <a :href="category.url" class="inline-block px-2 uppercase">
+                            <a :href="category.url" class="inline-block px-5 uppercase">
                                 @{{ category.name }}
                             </a>
                         </span>
@@ -284,7 +228,7 @@
                         >
                             <div class="flex justify-between gap-x-[70px]">
                                 <div
-                                    class="grid w-full max-w-[150px] flex-auto grid-cols-1 content-start gap-3"
+                                    class="grid w-full max-w-[150px] flex-auto grid-cols-1 content-start gap-5"
                                     v-for="pairCategoryChildren in pairCategoryChildren(category)"
                                 >
                                     <template v-for="secondLevelCategory in pairCategoryChildren">
@@ -306,8 +250,79 @@
                             </div>
                         </div>
                     </div>
+                </template>
+<div
+v-if="categories.length > 4"
+class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-navyBlue"
+>
+<a
+    href="/categorias"
+    class="inline-block px-5 uppercase text-current hover:text-navyBlue"
+    style="cursor: pointer;"
+>
+    Más ▾
+</a>
+
+<!-- Dropdown de "Más" -->
+<div
+    class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto border border-t border-[#F3F3F3] bg-white py-4 px-5 opacity-0 shadow transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
+>
+    <div class="grid grid-cols-3 gap-y-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div
+            class="group relative flex h-[60px] items-center border-b-4 border-transparent hover:border-navyBlue"
+            v-for="category in categories.slice(4)"
+        >
+            <!-- Categoría de nivel 1 (truncada solo en este dropdown) -->
+            <a
+                :href="category.url"
+                class="block px-2 uppercase text-sm"
+                style="display: block; max-width: 130px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                :title="category.name"
+            >
+                @{{ category.name }}
+            </a>
+
+            <!-- Subcategorías -->
+            <div
+                class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto border border-t border-[#F3F3F3] bg-white p-1 opacity-0 shadow transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
+                v-if="category.children.length"
+            >
+                <div class="flex justify-between gap-x-[70px]">
+                    <div
+                        class="grid w-full max-w-[150px] flex-auto grid-cols-1 content-start gap-3"
+                        v-for="pairCategoryChildren in pairCategoryChildren(category)"
+                    >
+                        <template v-for="secondLevelCategory in pairCategoryChildren">
+                            <p class="font-medium text-navyBlue" :title="secondLevelCategory.name">
+                                <a
+                                    :href="secondLevelCategory.url"
+                                    class="block px-1 text-sm"
+                                    :title="secondLevelCategory.name"
+                                >
+                                    @{{ secondLevelCategory.name }}
+                                </a>
+                            </p>
+
+                            <ul class="grid grid-cols-1 gap-3" v-if="secondLevelCategory.children.length">
+                                <li class="text-sm font-medium text-zinc-500" v-for="thirdLevelCategory in secondLevelCategory.children">
+                                    <a
+                                        :href="thirdLevelCategory.url"
+                                        class="block px-1 text-sm"
+                                        :title="thirdLevelCategory.name"
+                                    >
+                                        @{{ thirdLevelCategory.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </template>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+</div>
+
         </div>
     </script>
 
